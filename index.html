@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Dailies</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for a clean look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #030712; /* A slightly darker gray-950 */
+        }
+        /* Make card clickable */
+        .game-card {
+            cursor: pointer;
+        }
+        /* Custom style for the 'played' overlay and button */
+        .game-card.played .overlay {
+            opacity: 1;
+        }
+        .game-card.played .toggle-played-btn {
+            background-color: #22c55e; /* green-500 */
+            color: white;
+        }
+        /* Style for the favorite button when active */
+        .toggle-favorite-btn.is-favorite svg {
+            fill: #facc15; /* yellow-400 */
+            stroke: #facc15; /* yellow-400 */
+        }
+        /* Custom style for active filter button */
+        .filter-btn.active {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+        }
+    </style>
+</head>
+<body class="text-gray-200">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-7xl">
+
+        <!-- Header and Countdown Timer -->
+        <header class="flex justify-between items-center mb-10">
+            <h1 class="text-3xl sm:text-4xl font-bold text-white"><em>The Dailies</em></h1>
+            <div class="text-right">
+                <h2 class="text-sm font-medium text-blue-400/80 tracking-wider">NEXT RESET</h2>
+                <div id="countdown-timer" class="text-2xl font-bold tracking-wider mt-1 text-gray-200">
+                    <span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Tag Filters -->
+        <div id="tag-filters" class="flex flex-wrap justify-center gap-3 mb-10">
+            <!-- Filter buttons will be generated here by JavaScript -->
+        </div>
+
+        <!-- Game List -->
+        <main id="game-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+            <!-- Game cards will be generated here by JavaScript -->
+        </main>
+
+        <!-- Footer -->
+        <footer class="text-center text-xs text-gray-600 py-8">
+            By Ot
+        </footer>
+
+    </div>
+
+    <script>
+        // --- CONFIGURATION ---
+        // Edit this list to add, remove, or change your games.
+        const games = [
+            { name: "Wordle", url: "https://www.nytimes.com/games/wordle/index.html", description: "The classic daily five-letter word guessing game.", tags: ["word", "puzzle"] },
+            { name: "Connections", url: "https://www.nytimes.com/games/connections", description: "Group words into four secret categories.", tags: ["word", "puzzle", "logic"] },
+            { name: "Heardle", url: "https://www.heardle.app", description: "Guess the song from the intro.", tags: ["music", "quiz"] },
+            { name: "Framed", url: "https://framed.wtf", description: "Guess the movie from a single frame.", tags: ["movie", "quiz", "visual"] },
+            { name: "Bandle", url: "https://bandle.app/", description: "Guess the band by listening to their music.", tags: ["music", "quiz"] },
+            { name: "Waffle", url: "https://wafflegame.net/", description: "Rearrange letters into the correct words in a waffle shape.", tags: ["word", "puzzle"] },
+            { name: "Globle", url: "https://globle-game.com/", description: "Guess the mystery country with fewer guesses.", tags: ["geography", "puzzle", "logic"] },
+            { name: "Semantle", url: "https://semantle.com/", description: "Find the secret word based on semantic similarity.", tags: ["word", "logic"] },
+            { name: "Songless", url: "https://lessgames.com/songless", description: "Guess the song from its isolated vocal track.", tags: ["music", "quiz", "logic"] },
+            { name: "Moreless", url: "https://lessgames.com/moreless", description: "Guess if a term gets more/less monthly searches.", tags: ["quiz", "logic"] },
+            { name: "Spotdle", url: "https://spotle.io/", description: "Guess the song from a 1-second Spotify clip.", tags: ["music", "quiz"] },
+            { name: "Crosstune", url: "https://crosstune.io/", description: "A musical crossword puzzle to test your knowledge.", tags: ["music", "puzzle", "logic"] },
+            { name: "Scrandle", url: "https://scrandle.com/", description: "A chaotic word search against the clock.", tags: ["word", "puzzle"] },
+            { name: "Raddle", url: "https://raddle.quest/", description: "Guess a word with Tetris-like letter blocks.", tags: ["word", "puzzle", "logic"] },
+            { name: "Worldle", url: "https://worldle.teuteuf.fr/", description: "Guess the country or territory by its shape.", tags: ["geography", "puzzle", "visual"] },
+        ];
+
+        // --- APPLICATION LOGIC ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const gameList = document.getElementById('game-list');
+            const tagFiltersContainer = document.getElementById('tag-filters');
+
+            // --- State Management ---
+            let playedGames = {};
+            let favoriteGames = {};
+
+            const tagColors = {
+                word: { bg: 'bg-blue-500/10', text: 'text-blue-300', border: 'border-blue-500/30', filter: 'bg-blue-900/50 hover:bg-blue-800/80 border-blue-700' },
+                puzzle: { bg: 'bg-indigo-500/10', text: 'text-indigo-300', border: 'border-indigo-500/30', filter: 'bg-indigo-900/50 hover:bg-indigo-800/80 border-indigo-700' },
+                logic: { bg: 'bg-purple-500/10', text: 'text-purple-300', border: 'border-purple-500/30', filter: 'bg-purple-900/50 hover:bg-purple-800/80 border-purple-700' },
+                music: { bg: 'bg-pink-500/10', text: 'text-pink-300', border: 'border-pink-500/30', filter: 'bg-pink-900/50 hover:bg-pink-800/80 border-pink-700' },
+                quiz: { bg: 'bg-red-500/10', text: 'text-red-300', border: 'border-red-500/30', filter: 'bg-red-900/50 hover:bg-red-800/80 border-red-700' },
+                movie: { bg: 'bg-orange-500/10', text: 'text-orange-300', border: 'border-orange-500/30', filter: 'bg-orange-900/50 hover:bg-orange-800/80 border-orange-700' },
+                visual: { bg: 'bg-yellow-500/10', text: 'text-yellow-300', border: 'border-yellow-500/30', filter: 'bg-yellow-900/50 hover:bg-yellow-800/80 border-yellow-700' },
+                geography: { bg: 'bg-teal-500/10', text: 'text-teal-300', border: 'border-teal-500/30', filter: 'bg-teal-900/50 hover:bg-teal-800/80 border-teal-700' },
+                favorites: { filter: 'bg-yellow-900/60 hover:bg-yellow-800/80 border-yellow-700' },
+                all: { filter: 'bg-gray-800 hover:bg-gray-700/80 border-gray-700' },
+                default: { bg: 'bg-gray-800', text: 'text-gray-300', border: 'border-gray-700', filter: 'bg-gray-800 hover:bg-gray-700 border-gray-600' }
+            };
+
+            const getStartOfToday = () => {
+                const now = new Date();
+                return new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+            };
+
+            const loadPlayedState = () => {
+                const savedState = JSON.parse(localStorage.getItem('dailyGamesState'));
+                const todayStart = getStartOfToday();
+                if (savedState && savedState.timestamp >= todayStart) {
+                    playedGames = savedState.playedGames || {};
+                } else {
+                    playedGames = {};
+                    savePlayedState();
+                }
+            };
+
+            const savePlayedState = () => {
+                const state = { timestamp: new Date().getTime(), playedGames: playedGames };
+                localStorage.setItem('dailyGamesState', JSON.stringify(state));
+            };
+
+            const loadFavorites = () => {
+                favoriteGames = JSON.parse(localStorage.getItem('dailyGamesFavorites')) || {};
+            };
+
+            const saveFavorites = () => {
+                localStorage.setItem('dailyGamesFavorites', JSON.stringify(favoriteGames));
+            };
+
+            // --- Rendering ---
+            const renderGames = (filterTag = 'all') => {
+                gameList.innerHTML = '';
+                let filteredGames = games;
+
+                if (filterTag === 'favorites') {
+                    filteredGames = games.filter(game => favoriteGames[game.name.toLowerCase().replace(/\s+/g, '-')]);
+                } else if (filterTag !== 'all') {
+                    filteredGames = games.filter(game => game.tags.includes(filterTag));
+                }
+                
+                filteredGames.forEach(game => {
+                    const gameId = game.name.toLowerCase().replace(/\s+/g, '-');
+                    const isPlayed = !!playedGames[gameId];
+                    const isFavorite = !!favoriteGames[gameId];
+                    const primaryTag = game.tags[0];
+                    const cardColor = tagColors[primaryTag]?.bg || tagColors.default.bg;
+                    const cardBorder = tagColors[primaryTag]?.border || tagColors.default.border;
+
+                    const card = document.createElement('div');
+                    card.className = `game-card relative bg-gray-800 rounded-xl overflow-hidden shadow-lg border transition-all duration-200 hover:scale-105 hover:border-gray-500 ${cardColor} ${cardBorder} ${isPlayed ? 'played' : ''}`;
+                    card.dataset.id = gameId;
+
+                    card.innerHTML = `
+                        <div class="overlay absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 transition-opacity duration-300 pointer-events-none">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-400"><path d="M20 6 9 17l-5-5"/></svg>
+                        </div>
+                        <div class="p-5 flex flex-col h-full">
+                            <div class="flex-grow">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="text-xl font-bold text-white pr-2">${game.name}</h3>
+                                    <div class="flex-shrink-0 flex items-center gap-2 z-10">
+                                        <button class="toggle-favorite-btn p-1.5 text-gray-400 hover:text-yellow-400 transition-colors ${isFavorite ? 'is-favorite' : ''}" title="Toggle favorite">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                                        </button>
+                                        <button class="toggle-played-btn p-2 rounded-full bg-gray-700/80 hover:bg-gray-600/80 transition-colors" title="Mark as played">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-300"><path d="M20 6 9 17l-5-5"/></svg>
+                                        </button>
+                                    </div>
+                                </div>
+                                <p class="text-gray-400 text-sm">${game.description}</p>
+                            </div>
+                            <div class="mt-4 flex flex-wrap gap-2">
+                                ${game.tags.map(tag => {
+                                    const textColor = tagColors[tag]?.text || tagColors.default.text;
+                                    const tagBg = tagColors[tag]?.bg.replace('/10', '/20') || tagColors.default.bg; // Make tag bg slightly stronger
+                                    return `<span class="text-xs font-medium px-2 py-1 rounded-full ${textColor} ${tagBg}">${tag}</span>`;
+                                }).join('')}
+                            </div>
+                        </div>
+                    `;
+                    gameList.appendChild(card);
+                });
+            };
+
+            const renderTagFilters = () => {
+                const allTags = new Set(games.flatMap(game => game.tags));
+                const sortedTags = ['all', 'favorites', ...Array.from(allTags).sort()];
+
+                tagFiltersContainer.innerHTML = sortedTags.map(tag => {
+                    const colorClass = tagColors[tag]?.filter || tagColors.default.filter;
+                    const activeClass = tag === 'all' ? 'active' : '';
+                    return `
+                    <button class="filter-btn text-sm font-medium capitalize px-4 py-2 rounded-full border transition-all duration-200 ${colorClass} ${activeClass}" data-tag="${tag}">
+                        ${tag === 'favorites' ? '⭐ Favorites' : tag}
+                    </button>
+                `}).join('');
+            };
+
+            const updateCountdown = () => {
+                const now = new Date();
+                const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+                const diff = tomorrow - now;
+
+                const hours = Math.floor(diff / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+                document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+                document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+                
+                if (hours === 23 && minutes === 59 && seconds === 59) {
+                    setTimeout(() => { loadPlayedState(); renderGames(); }, 1000);
+                }
+            };
+            
+            // --- Event Handlers ---
+            gameList.addEventListener('click', (e) => {
+                const card = e.target.closest('.game-card');
+                if (!card) return;
+                const gameId = card.dataset.id;
+                
+                if (e.target.closest('.toggle-favorite-btn')) {
+                    favoriteGames[gameId] = !favoriteGames[gameId];
+                    if (!favoriteGames[gameId]) delete favoriteGames[gameId];
+                    saveFavorites();
+                    const currentFilter = document.querySelector('.filter-btn.active')?.dataset.tag || 'all';
+                    renderGames(currentFilter);
+                    return;
+                }
+
+                if (e.target.closest('.toggle-played-btn')) {
+                    playedGames[gameId] = !playedGames[gameId];
+                    if (!playedGames[gameId]) delete playedGames[gameId];
+                    card.classList.toggle('played');
+                    savePlayedState();
+                    return;
+                }
+                
+                const game = games.find(g => g.name.toLowerCase().replace(/\s+/g, '-') === gameId);
+                if (game && game.url) {
+                    window.open(game.url, '_blank', 'noopener,noreferrer');
+                }
+            });
+
+            tagFiltersContainer.addEventListener('click', (e) => {
+                const button = e.target.closest('.filter-btn');
+                if (button) {
+                    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    renderGames(button.dataset.tag);
+                }
+            });
+
+            // --- Initial Setup ---
+            loadFavorites();
+            loadPlayedState();
+            renderTagFilters();
+            renderGames();
+            setInterval(updateCountdown, 1000);
+            updateCountdown();
+        });
+    </script>
+</body>
+</html>

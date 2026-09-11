@@ -486,6 +486,7 @@
             p.style.setProperty('--size', `${4 + Math.random() * 3}px`);
             burst.appendChild(p);
         }
+        burst.addEventListener('animationend', (e) => e.stopPropagation());
         card.appendChild(burst);
         setTimeout(() => burst.remove(), 600);
     }
@@ -493,6 +494,29 @@
     /* ==========================================================
        EVENT HANDLERS
        ========================================================== */
+    function triggerTransientAnimation(el, classesToRemove, animNames, maxDuration = 600) {
+        if (el._animCleanup) el._animCleanup();
+
+        const cleanup = () => {
+            el.classList.remove(...classesToRemove);
+            el.removeEventListener('animationend', onEnd);
+            el.removeEventListener('animationcancel', onEnd);
+            clearTimeout(timeoutId);
+            el._animCleanup = null;
+        };
+
+        const onEnd = (evt) => {
+            if ((evt.target === el || el.contains(evt.target)) && animNames.includes(evt.animationName)) {
+                cleanup();
+            }
+        };
+
+        const timeoutId = setTimeout(cleanup, maxDuration);
+        el._animCleanup = cleanup;
+        el.addEventListener('animationend', onEnd);
+        el.addEventListener('animationcancel', onEnd);
+    }
+
     function handleCardClick(e) {
         const card = e.target.closest('.game-card');
         if (!card) return;
@@ -520,10 +544,7 @@
                 favBtn.classList.remove('just-favorited', 'just-unfavorited');
                 void favBtn.offsetWidth;
                 favBtn.classList.add(isFav ? 'just-favorited' : 'just-unfavorited');
-
-                favBtn.addEventListener('animationend', () => {
-                    favBtn.classList.remove('just-favorited', 'just-unfavorited');
-                }, { once: true });
+                triggerTransientAnimation(favBtn, ['just-favorited', 'just-unfavorited'], ['star-pop', 'star-deflate'], 500);
             }
             return;
         }
@@ -534,6 +555,7 @@
             e.stopPropagation();
             const wasPlayed = !!playedGames[id];
             if (wasPlayed) {
+                if (card._animCleanup) card._animCleanup();
                 delete playedGames[id];
                 card.classList.remove('played', 'just-completed');
                 completeBtn.classList.remove('is-completed');
@@ -547,12 +569,7 @@
                 completeBtn.classList.add('is-completed');
                 completeBtn.innerHTML = getCheckIcon(true);
                 createCompletionBurst(card, completeBtn);
-
-                card.addEventListener('animationend', (evt) => {
-                    if (evt.animationName === 'card-jump') {
-                        card.classList.remove('just-completed');
-                    }
-                }, { once: true });
+                triggerTransientAnimation(card, ['just-completed'], ['card-jump'], 600);
             }
             savePlayed();
             updateCounter();

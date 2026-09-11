@@ -4,7 +4,7 @@ Connections,https://www.nytimes.com/games/connections,Group sixteen words into f
 Minute Cryptic,https://www.minutecryptic.com/,Solve a single daily cryptic crossword clue.,Word;Logic;English
 Waffle,https://wafflegame.net/,Swap letters in limited moves to solve a grid of words.,Logic;Word;English
 Raddle,https://raddle.quest/,Chain words together step-by-step using clues.,Word;Logic;English
-Spelling Bee,https://lessgames.com/spellingbee,Form as many words as possible using seven letters.,Word;Logic;English
+Spelling Bee,https://lessgames.com/spellingbee,Form as many words as possible using seven letters.,Word;Audio;English
 Spellchk,https://spellcheck.xyz/,Listen to spoken words and spell them correctly.,Audio;Word;English
 El Mot,https://gelozp.com/games/elmot/,Endevina el mot secret de cinc lletres en català.,Word;Logic;Català
 Minimots,https://www.vilaweb.cat/minimots/,Mini-motcreuat diari en català.,Word;Logic;Català
@@ -26,3 +26,4 @@ Moreless,https://lessgames.com/moreless,Determine which search term has a higher
 Scrandle,https://scrandle.com/,Pick which food option the public preferred in head-to-head matchups.,Quiz;Trivia
 Krillion,https://krillion.io/,Test your quantitative trivia knowledge by estimating large numbers.,Quiz;Trivia;Logic
 Fermi,https://fermi.gg/,Estimate orders of magnitude to solve daily Fermi estimation problems.,Logic;Quiz;Trivia
+Kinda Hard Golf,https://kindahardgolf.com,Aim and sink the ball on a challenging daily golf hole.,Visual;Logic

@@ -1,23 +1,28 @@
 name,url,description,tags
-Wordle,https://www.nytimes.com/games/wordle/index.html,The classic daily five-letter word guessing game.,Word
-Connections,https://www.nytimes.com/games/connections,Group words into four secret categories.,Word;Logic
-Minute Cryptic,https://www.minutecryptic.com/,Guess words from a cryptic clue.,Word;Logic
-Cutle,https://pfiffel.com/cutle/,Cut the shape in half.,Visual
-Bandle,https://bandle.app/,Guess the song instrument by instrument.,Music;Audio
-Raddle,https://raddle.quest/,Go from a word to another in steps through clues.,Word;Logic
-Angle,https://angle.wtf,Guess the right angle.,Visual
-Waffle,https://wafflegame.net/,Rearrange letters into the correct words in a waffle shape.,Word
-Globle,https://globle-game.com/,Guess the mystery country with fewer guesses.,Trivia;Logic
-Semantle,https://semantle.com/,Find the secret word based on semantic similarity.,Word;Logic
-Songless,https://lessgames.com/songless,Guess the song in 0.1 seconds.,Music;Audio
-Moreless,https://lessgames.com/moreless,Guess if a term gets more or less monthly searches.,Trivia;Logic
-Friday Full Circle,https://www.fullcirclefriday.com/,Connect every pair of words. Resets on Friday.,Word
-Spotdle,https://spotle.io/,Guess the artist.,Music;Quiz
-Crosstune,https://crosstune.io/,A musical crossword puzzle to test your knowledge.,Music;Logic
-Scrandle,https://scrandle.com/,Find which option is the preferred scran.,Word
-Framed,https://framed.wtf,Guess the movie from a single frame.,Trivia;Visual
-Worldle,https://worldle.teuteuf.fr/,Guess the country or territory by its shape.,Trivia;Visual
-Minimots,https://www.vilaweb.cat/minimots/,Mini-crucigrama en Català.,Word;Català
-Flagle,https://www.flagle-game.com/,Guess the flag from the colours.,Trivia;Visual
-Bandiz,https://bandiz.app/,A shittier Bandle.,Music;Audio
-Musicle,https://musicle.app/pop/,Guess the album from a song snippet.,Music;Quiz
+Wordle,https://www.nytimes.com/games/wordle/index.html,Guess the hidden five-letter word in six tries.,Word;Logic;English
+Connections,https://www.nytimes.com/games/connections,Group sixteen words into four hidden categories.,Logic;Word;English
+Minute Cryptic,https://www.minutecryptic.com/,Solve a single daily cryptic crossword clue.,Word;Logic;English
+Waffle,https://wafflegame.net/,Swap letters in limited moves to solve a grid of words.,Logic;Word;English
+Raddle,https://raddle.quest/,Chain words together step-by-step using clues.,Word;Logic;English
+Spelling Bee,https://lessgames.com/spellingbee,Form as many words as possible using seven letters.,Word;Logic;English
+Spellchk,https://spellcheck.xyz/,Listen to spoken words and spell them correctly.,Audio;Word;English
+El Mot,https://gelozp.com/games/elmot/,Endevina el mot secret de cinc lletres en català.,Word;Logic;Català
+Minimots,https://www.vilaweb.cat/minimots/,Mini-motcreuat diari en català.,Word;Logic;Català
+Paraulògic,https://www.vilaweb.cat/paraulogic/,Forma paraules en català a partir d'un rusc de set lletres.,Logic;Word;Català
+La Palabra del Día,https://lapalabradeldia.com/,Adivina la palabra oculta de cinco letras en español.,Word;Logic;Español
+Bandle,https://bandle.app/,Guess the song instrument by instrument.,Music;Audio;Quiz
+Bandiz,https://bandiz.app/,Alternative daily music quiz identifying songs layer by layer.,Audio;Music;Quiz
+Songless,https://lessgames.com/songless,Guess the song from an ultra-short audio snippet.,Audio;Music;Quiz
+Spotdle,https://spotle.io/,Guess the mystery musical artist using daily clues.,Trivia;Music;Quiz
+Crosstune,https://crosstune.io/,Solve a crossword puzzle focused on music trivia.,Music;Word;Trivia
+Cutle,https://pfiffel.com/cutle/,Draw a line to slice the geometric shape exactly in half.,Visual;Logic
+Angle,https://angle.wtf,Estimate and guess the exact degree of the given angle.,Visual;Logic
+Dialed,https://dialed.gg/color,Dial in sliders to match the daily mystery color.,Visual;Logic
+Worldle,https://worldle.teuteuf.fr/,Identify the mystery country or territory by its outline.,Visual;Trivia;Quiz
+Flagle,https://www.flagle-game.com/,Uncover and guess the mystery national flag tile by tile.,Trivia;Visual;Quiz
+Globle,https://globle-game.com/,Find the mystery country using a hot-and-cold color globe.,Trivia;Visual;Logic
+Disorderly,https://playdisorderly.com/,"Place events, stats, or items into the correct chronological or numerical order.",Logic;Trivia;Quiz
+Moreless,https://lessgames.com/moreless,Determine which search term has a higher or lower monthly search volume.,Trivia;Quiz;Logic
+Scrandle,https://scrandle.com/,Pick which food option the public preferred in head-to-head matchups.,Quiz;Trivia
+Krillion,https://krillion.io/,Test your quantitative trivia knowledge by estimating large numbers.,Quiz;Trivia;Logic
+Fermi,https://fermi.gg/,Estimate orders of magnitude to solve daily Fermi estimation problems.,Logic;Quiz;Trivia

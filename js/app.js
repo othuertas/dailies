@@ -34,27 +34,42 @@
 
     /* ==========================================================
        CSV PARSER
-       Handles quoted fields and semicolons within tag values
+       Handles quoted fields, commas/semicolons, and CRLF line endings
        ========================================================== */
+    function detectDelimiter(headerLine) {
+        let inQ = false, commas = 0, semis = 0;
+        for (let i = 0; i < headerLine.length; i++) {
+            const ch = headerLine[i];
+            if (ch === '"') inQ = !inQ;
+            else if (!inQ) {
+                if (ch === ',') commas++;
+                else if (ch === ';') semis++;
+            }
+        }
+        return semis > commas ? ';' : ',';
+    }
+
     function parseCSV(text) {
-        const lines = text.trim().split('\n');
+        const cleaned = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+        const lines = cleaned.trim().split('\n');
         if (lines.length < 2) return [];
-        const headers = splitCSVLine(lines[0]);
+        const delim = detectDelimiter(lines[0]);
+        const headers = splitCSVLine(lines[0], delim);
         const rows = [];
         for (let i = 1; i < lines.length; i++) {
             const line = lines[i].trim();
             if (!line) continue;
-            const vals = splitCSVLine(line);
+            const vals = splitCSVLine(line, delim);
             const obj = {};
             headers.forEach((h, idx) => {
                 obj[h.trim().toLowerCase()] = (vals[idx] || '').trim();
             });
-            rows.push(obj);
+            if (obj.name) rows.push(obj);
         }
         return rows;
     }
 
-    function splitCSVLine(line) {
+    function splitCSVLine(line, delim = ',') {
         const result = [];
         let cur = '';
         let inQ = false;
@@ -66,7 +81,7 @@
                 else { cur += ch; }
             } else {
                 if (ch === '"') { inQ = true; }
-                else if (ch === ',') { result.push(cur); cur = ''; }
+                else if (ch === delim) { result.push(cur); cur = ''; }
                 else { cur += ch; }
             }
         }
@@ -118,7 +133,7 @@
                 name: r.name,
                 url: r.url,
                 description: r.description,
-                tags: sortTags(rawTags),
+                tags: rawTags,
             };
         });
     }

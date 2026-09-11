@@ -1,22 +1,70 @@
-# The Dailies - A Personal Game Hub
-This is a simple, clean, and self-contained webpage designed to host a personal gallery of daily online games. It's built with HTML, Tailwind CSS, and vanilla JavaScript, requiring no setup or build process.
-## Features
-⦁	Custom Game List: Easily edit a single file (index.html) to add, remove, or modify your list of daily games.
-⦁	Daily Countdown: A clean timer at the top counts down to midnight (local time), when most daily games reset.
-⦁	Played/Unplayed Tracking: Mark games as "played" for the day with a simple click. This status is saved in your browser's local storage and resets automatically each day.
-⦁	Favorites System: Mark your most-loved games as favorites for quick access via a special filter.
-⦁	Tag-Based Filtering: Assign tags (like "word", "music", "puzzle") to each game and use the automatically generated filter buttons to sort your list.
-⦁	Fully Responsive: The layout works beautifully on desktop, tablets, and mobile devices.
-## How to Customize
-All customization happens directly within the index.html file.
-1.	Open index.html in a text editor.
-2.	Find the <script> tag at the bottom of the file.
-3.	The very first thing inside the script is a JavaScript array called const games = [...].
-4.	To add a new game, add a new entry to the array like this:
+# The Dailies
 
-{  
-name: "New Game Name",  
-url: "[https://example.com](https://example.com)",  
-description: "A short description of the game.",  
-tags: ["tag1", "tag2"]  
-},
+A personal daily games hub — track, play, and organize your favorite daily browser games. Built as a static GitHub Pages site with vanilla HTML, CSS, and JavaScript.
+
+**Live at [dailies.othuertas.com](https://dailies.othuertas.com)**
+
+## Features
+
+- 🌓 **Dark & light mode** with system preference detection
+- ⏰ **Seven-segment countdown clock** to next daily reset (midnight)
+- 🏷️ **Tab-based filtering** by game category
+- ⭐ **Favorites** — star games for quick access
+- ✅ **Daily completion tracking** — auto-resets at midnight
+- 📊 **Completed/total counter** relative to the active tab
+- 🔀 **Drag-to-reorder** games (hold and drag on mobile)
+- 💾 **Persistent state** — favorites, order, and theme saved in your browser
+- 🎉 **Easter egg** when all games are completed
+- 📱 **Fully responsive** layout
+
+## How to Add or Edit Games
+
+The games database is a CSV file at [`data/games.csv`](data/games.csv). Open it in any spreadsheet app (Excel, Numbers, Google Sheets) or text editor.
+
+| Column        | Description                              | Example                                              |
+|---------------|------------------------------------------|------------------------------------------------------|
+| `name`        | Game title                               | `Wordle`                                             |
+| `url`         | Link to the game                         | `https://www.nytimes.com/games/wordle/index.html`    |
+| `description` | Short description (1–2 sentences)        | `The classic daily five-letter word guessing game.`  |
+| `tags`        | Categories separated by `;`              | `Word;Logic`                                         |
+
+**Available tags:** Visual · Audio · Word · Logic · Quiz · Music · Trivia · Català · Español · English
+
+To add a game, add a new row. Save, commit, and push — done.
+
+## Project Structure
+
+```
+├── index.html              Main HTML page
+├── css/
+│   └── styles.css          Design system & all styles
+├── js/
+│   ├── app.js              Application logic
+│   └── clock.js            Seven-segment countdown clock
+├── data/
+│   └── games.csv           Games database (edit this!)
+├── assets/
+│   ├── wordmark-dark.png   Logo for light mode
+│   └── wordmark-light.png  Logo for dark mode
+├── favicon.png
+├── CNAME                   Custom domain config
+└── README.md
+```
+
+## Local Development
+
+Since this site uses `fetch()` to load the CSV, you need a local HTTP server:
+
+```bash
+# Python 3
+python -m http.server 8000
+
+# Or with Node.js
+npx serve .
+```
+
+Then open [http://localhost:8000](http://localhost:8000).
+
+## Deployment
+
+Deployed automatically via **GitHub Pages** — just push to the main branch.

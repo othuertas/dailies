@@ -1,0 +1,13 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# References (development only, not deployed)
+references/
+
+# Editor/IDE files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/

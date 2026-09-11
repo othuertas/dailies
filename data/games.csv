@@ -1,0 +1,23 @@
+name,url,description,tags
+Wordle,https://www.nytimes.com/games/wordle/index.html,The classic daily five-letter word guessing game.,Word
+Connections,https://www.nytimes.com/games/connections,Group words into four secret categories.,Word;Logic
+Minute Cryptic,https://www.minutecryptic.com/,Guess words from a cryptic clue.,Word;Logic
+Cutle,https://pfiffel.com/cutle/,Cut the shape in half.,Visual
+Bandle,https://bandle.app/,Guess the song instrument by instrument.,Music;Audio
+Raddle,https://raddle.quest/,Go from a word to another in steps through clues.,Word;Logic
+Angle,https://angle.wtf,Guess the right angle.,Visual
+Waffle,https://wafflegame.net/,Rearrange letters into the correct words in a waffle shape.,Word
+Globle,https://globle-game.com/,Guess the mystery country with fewer guesses.,Trivia;Logic
+Semantle,https://semantle.com/,Find the secret word based on semantic similarity.,Word;Logic
+Songless,https://lessgames.com/songless,Guess the song in 0.1 seconds.,Music;Audio
+Moreless,https://lessgames.com/moreless,Guess if a term gets more or less monthly searches.,Trivia;Logic
+Friday Full Circle,https://www.fullcirclefriday.com/,Connect every pair of words. Resets on Friday.,Word
+Spotdle,https://spotle.io/,Guess the artist.,Music;Quiz
+Crosstune,https://crosstune.io/,A musical crossword puzzle to test your knowledge.,Music;Logic
+Scrandle,https://scrandle.com/,Find which option is the preferred scran.,Word
+Framed,https://framed.wtf,Guess the movie from a single frame.,Trivia;Visual
+Worldle,https://worldle.teuteuf.fr/,Guess the country or territory by its shape.,Trivia;Visual
+Minimots,https://www.vilaweb.cat/minimots/,Mini-crucigrama en Català.,Word;Català
+Flagle,https://www.flagle-game.com/,Guess the flag from the colours.,Trivia;Visual
+Bandiz,https://bandiz.app/,A shittier Bandle.,Music;Audio
+Musicle,https://musicle.app/pop/,Guess the album from a song snippet.,Music;Quiz

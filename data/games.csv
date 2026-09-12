@@ -1,29 +1,29 @@
-name,url,description,tags
-Wordle,https://www.nytimes.com/games/wordle/index.html,Guess the hidden five-letter word in six tries.,Word;Logic;English
-Connections,https://www.nytimes.com/games/connections,Group sixteen words into four hidden categories.,Logic;Word;English
-Minute Cryptic,https://www.minutecryptic.com/,Solve a single daily cryptic crossword clue.,Word;Logic;English
-Waffle,https://wafflegame.net/,Swap letters in limited moves to solve a grid of words.,Logic;Word;English
-Raddle,https://raddle.quest/,Chain words together step-by-step using clues.,Word;Logic;English
-Spelling Bee,https://lessgames.com/spellingbee,Form as many words as possible using seven letters.,Word;Audio;English
-Spellchk,https://spellcheck.xyz/,Listen to spoken words and spell them correctly.,Audio;Word;English
-El Mot,https://gelozp.com/games/elmot/,Endevina el mot secret de cinc lletres en català.,Word;Logic;Català
-Minimots,https://www.vilaweb.cat/minimots/,Mini-motcreuat diari en català.,Word;Logic;Català
-Paraulògic,https://www.vilaweb.cat/paraulogic/,Forma paraules en català a partir d'un rusc de set lletres.,Logic;Word;Català
-La Palabra del Día,https://lapalabradeldia.com/,Adivina la palabra oculta de cinco letras en español.,Word;Logic;Español
-Bandle,https://bandle.app/,Guess the song instrument by instrument.,Music;Audio;Quiz
-Bandiz,https://bandiz.app/,Alternative daily music quiz identifying songs layer by layer.,Audio;Music;Quiz
-Songless,https://lessgames.com/songless,Guess the song from an ultra-short audio snippet.,Audio;Music;Quiz
-Spotdle,https://spotle.io/,Guess the mystery musical artist using daily clues.,Trivia;Music;Quiz
-Crosstune,https://crosstune.io/,Solve a crossword puzzle focused on music trivia.,Music;Word;Trivia
-Cutle,https://pfiffel.com/cutle/,Draw a line to slice the geometric shape exactly in half.,Visual;Logic
-Angle,https://angle.wtf,Estimate and guess the exact degree of the given angle.,Visual;Logic
-Dialed,https://dialed.gg/color,Dial in sliders to match the daily mystery color.,Visual;Logic
-Worldle,https://worldle.teuteuf.fr/,Identify the mystery country or territory by its outline.,Visual;Trivia;Quiz
-Flagle,https://www.flagle-game.com/,Uncover and guess the mystery national flag tile by tile.,Trivia;Visual;Quiz
-Globle,https://globle-game.com/,Find the mystery country using a hot-and-cold color globe.,Trivia;Visual;Logic
-Disorderly,https://playdisorderly.com/,"Place events, stats, or items into the correct chronological or numerical order.",Logic;Trivia;Quiz
-Moreless,https://lessgames.com/moreless,Determine which search term has a higher or lower monthly search volume.,Trivia;Quiz;Logic
-Scrandle,https://scrandle.com/,Pick which food option the public preferred in head-to-head matchups.,Quiz;Trivia
-Krillion,https://krillion.io/,Test your quantitative trivia knowledge by estimating large numbers.,Quiz;Trivia;Logic
-Fermi,https://fermi.gg/,Estimate orders of magnitude to solve daily Fermi estimation problems.,Logic;Quiz;Trivia
-Kinda Hard Golf,https://kindahardgolf.com,Aim and sink the ball on a challenging daily golf hole.,Visual;Logic
+name,url,description_en,description_ca,description_es,tags
+Wordle,https://www.nytimes.com/games/wordle/index.html,Guess the hidden five-letter word in six tries.,Endevina la paraula oculta de cinc lletres en sis intents.,Adivina la palabra oculta de cinco letras en seis intentos.,Word;Logic;English
+Connections,https://www.nytimes.com/games/connections,Group sixteen words into four hidden categories.,Agrupa setze paraules en quatre categories ocultes.,Agrupa dieciséis palabras en cuatro categorías ocultas.,Logic;Word;English
+Minute Cryptic,https://www.minutecryptic.com/,Solve a single daily cryptic crossword clue.,Resol una única pista diària de mots encreuats críptics.,Resuelve una única pista diaria de crucigrama críptico.,Word;Logic;English
+Waffle,https://wafflegame.net/,Swap letters in limited moves to solve a grid of words.,Intercanvia lletres amb moviments limitats per resoldre una graella de paraules.,Intercambia letras con movimientos limitados para resolver una cuadrícula de palabras.,Logic;Word;English
+Raddle,https://raddle.quest/,Chain words together step-by-step using clues.,Encadena paraules pas a pas fent servir pistes.,Encadena palabras paso a paso utilizando pistas.,Word;Logic;English
+Spelling Bee,https://lessgames.com/spellingbee,Form as many words as possible using seven letters.,Forma tantes paraules com puguis fent servir set lletres.,Forma tantas palabras como puedas usando siete letras.,Word;Audio;English
+Spellchk,https://spellcheck.xyz/,Listen to spoken words and spell them correctly.,Escolta paraules pronunciades i escriu-les correctament.,Escucha palabras pronunciadas y deletréalas correctamente.,Audio;Word;English
+El Mot,https://gelozp.com/games/elmot/,Guess the secret five-letter word in Catalan.,Endevina el mot secret de cinc lletres en català.,Adivina la palabra secreta de cinco letras en catalán.,Word;Logic;Català
+Minimots,https://www.vilaweb.cat/minimots/,Daily mini crossword in Catalan.,Mini-motcreuat diari en català.,Mini crucigrama diario en catalán.,Word;Logic;Català
+Paraulògic,https://www.vilaweb.cat/paraulogic/,Form words in Catalan from a seven-letter honeycomb.,Forma paraules en català a partir d'un rusc de set lletres.,Forma palabras en catalán a partir de un panal de siete letras.,Logic;Word;Català
+La Palabra del Día,https://lapalabradeldia.com/,Guess the hidden five-letter word in Spanish.,Endevina la paraula oculta de cinc lletres en espanyol.,Adivina la palabra oculta de cinco letras en español.,Word;Logic;Español
+Bandle,https://bandle.app/,Guess the song instrument by instrument.,Endevina la cançó instrument per instrument.,Adivina la canción instrumento por instrumento.,Music;Audio;Quiz
+Bandiz,https://bandiz.app/,Alternative daily music quiz identifying songs layer by layer.,Quiz musical diari alternatiu per identificar cançons capa per capa.,Quiz musical diario alternativo para identificar canciones capa por capa.,Audio;Music;Quiz
+Songless,https://lessgames.com/songless,Guess the song from an ultra-short audio snippet.,Endevina la cançó a partir d'un fragment d'àudio ultracurt.,Adivina la canción a partir de un fragmento de audio ultracorto.,Audio;Music;Quiz
+Spotdle,https://spotle.io/,Guess the mystery musical artist using daily clues.,Endevina l'artista musical misteriós amb pistes diàries.,Adivina el artista musical misterioso usando pistas diarias.,Trivia;Music;Quiz
+Crosstune,https://crosstune.io/,Solve a crossword puzzle focused on music trivia.,Resol uns mots encreuats centrats en preguntes sobre música.,Resuelve un crucigrama centrado en trivia musical.,Music;Word;Trivia
+Cutle,https://pfiffel.com/cutle/,Draw a line to slice the geometric shape exactly in half.,Traça una línia per tallar la figura geomètrica exactament per la meitat.,Dibuja una línea para cortar la figura geométrica exactamente por la mitad.,Visual;Logic
+Angle,https://angle.wtf,Estimate and guess the exact degree of the given angle.,Estima i endevina els graus exactes de l'angle donat.,Calcula y adivina los grados exactos del ángulo dado.,Visual;Logic
+Dialed,https://dialed.gg/color,Dial in sliders to match the daily mystery color.,Ajusta els controls lliscants per fer coincidir el color misteriós del dia.,Ajusta los controles deslizantes para igualar el color misterioso del día.,Visual;Logic
+Worldle,https://worldle.teuteuf.fr/,Identify the mystery country or territory by its outline.,Identifica el país o territori misteriós per la seva silueta.,Identifica el país o territorio misterioso por su silueta.,Visual;Trivia;Quiz
+Flagle,https://www.flagle-game.com/,Uncover and guess the mystery national flag tile by tile.,Descobreix i endevina la bandera nacional misteriosa rajola a rajola.,Descubre y adivina la bandera nacional misteriosa casilla a casilla.,Trivia;Visual;Quiz
+Globle,https://globle-game.com/,Find the mystery country using a hot-and-cold color globe.,Troba el país misteriós fent servir un globus terraqüi de colors fred-calent.,Encuentra el país misterioso usando un globo terráqueo de colores frío-caliente.,Trivia;Visual;Logic
+Disorderly,https://playdisorderly.com/,"Place events, stats, or items into the correct chronological or numerical order.","Col·loca esdeveniments, estadístiques o elements en l'ordre cronològic o numèric correcte.","Ordena eventos, estadísticas o elementos en el orden cronológico o numérico correcto.",Logic;Trivia;Quiz
+Moreless,https://lessgames.com/moreless,Determine which search term has a higher or lower monthly search volume.,Determina quin terme de cerca té un volum de cerques mensual més alt o més baix.,Determina qué término de búsqueda tiene mayor o menor volumen de búsquedas mensuales.,Trivia;Quiz;Logic
+Scrandle,https://scrandle.com/,Pick which food option the public preferred in head-to-head matchups.,Tria quina opció de menjar ha preferit el públic en duels cara a cara.,Elige qué opción de comida prefirió el público en enfrentamientos directos.,Quiz;Trivia
+Krillion,https://krillion.io/,Test your quantitative trivia knowledge by estimating large numbers.,Posa a prova els teus coneixements estimant xifres molt grans.,Pon a prueba tus conocimientos cuantitativos estimando grandes números.,Quiz;Trivia;Logic
+Fermi,https://fermi.gg/,Estimate orders of magnitude to solve daily Fermi estimation problems.,Estima ordres de magnitud per resoldre problemes diaris d'estimació de Fermi.,Estima órdenes de magnitud para resolver problemas diarios de estimación de Fermi.,Logic;Quiz;Trivia
+Kinda Hard Golf,https://kindahardgolf.com,Aim and sink the ball on a challenging daily golf hole.,Apunta i emboca la pilota en un forat de golf diari exigent.,Apunta y emboca la bola en un hoyo de golf diario desafiante.,Visual;Logic

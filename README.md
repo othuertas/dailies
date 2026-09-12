@@ -12,8 +12,9 @@ A personal daily games hub — track, play, and organize your favorite daily bro
 - ⭐ **Favorites** — star games for quick access
 - ✅ **Daily completion tracking** — auto-resets at midnight
 - 📊 **Completed/total counter** relative to the active tab
+- 🌐 **Multi-language support** (English, Catalan, Spanish) for tags, descriptions, and messages
 - 🔀 **Drag-to-reorder** games (hold and drag on mobile)
-- 💾 **Persistent state** — favorites, order, and theme saved in your browser
+- 💾 **Persistent state** — favorites, order, language, and theme saved in your browser
 - 🎉 **Easter egg** when all games are completed
 - 📱 **Fully responsive** layout
 
@@ -21,12 +22,16 @@ A personal daily games hub — track, play, and organize your favorite daily bro
 
 The games database is a CSV file at [`data/games.csv`](data/games.csv). Open it in any spreadsheet app (Excel, Numbers, Google Sheets) or text editor.
 
-| Column        | Description                              | Example                                              |
-|---------------|------------------------------------------|------------------------------------------------------|
-| `name`        | Game title                               | `Wordle`                                             |
-| `url`         | Link to the game                         | `https://www.nytimes.com/games/wordle/index.html`    |
-| `description` | Short description (1–2 sentences)        | `The classic daily five-letter word guessing game.`  |
-| `tags`        | Categories separated by `;`              | `Word;Logic`                                         |
+| Column           | Description                                  | Example                                              |
+|------------------|----------------------------------------------|------------------------------------------------------|
+| `name`           | Game title                                   | `Wordle`                                             |
+| `url`            | Link to the game                             | `https://www.nytimes.com/games/wordle/index.html`    |
+| `description_en` | English description                         | `Guess the hidden five-letter word in six tries.`    |
+| `description_ca` | Catalan description                         | `Endevina la paraula oculta de cinc lletres...`      |
+| `description_es` | Spanish description                         | `Adivina la palabra oculta de cinco letras...`      |
+| `tags`           | Categories separated by `;`                  | `Word;Logic;English`                                 |
+
+*(Note: A single `description` column is also supported as fallback.)*
 
 **Available tags:** Visual · Audio · Word · Logic · Quiz · Music · Trivia · Català · Español · English
 

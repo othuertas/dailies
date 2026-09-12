@@ -24,9 +24,38 @@
     <div class="container">
 
         <header class="header">
-            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
-                <!-- Icon set by JS -->
-            </button>
+            <div class="header-controls">
+                <div class="lang-switcher" id="lang-switcher">
+                    <button id="lang-toggle" class="lang-toggle" aria-label="Change language" aria-haspopup="listbox" aria-expanded="false">
+                        <svg class="lang-icon-globe" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>
+                            <path d="M2 12h20"/>
+                        </svg>
+                        <svg class="lang-icon-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="m6 9 6 6 6-6"/>
+                        </svg>
+                    </button>
+                    <div id="lang-menu" class="lang-menu" role="listbox" aria-label="Select language" tabindex="-1">
+                        <button type="button" class="lang-option" role="option" data-lang="en" aria-selected="false">
+                            <span class="lang-option-name">English</span>
+                            <span class="lang-option-check" aria-hidden="true">✓</span>
+                        </button>
+                        <button type="button" class="lang-option" role="option" data-lang="ca" aria-selected="false">
+                            <span class="lang-option-name">Català</span>
+                            <span class="lang-option-check" aria-hidden="true">✓</span>
+                        </button>
+                        <button type="button" class="lang-option" role="option" data-lang="es" aria-selected="false">
+                            <span class="lang-option-name">Español</span>
+                            <span class="lang-option-check" aria-hidden="true">✓</span>
+                        </button>
+                    </div>
+                </div>
+
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+                    <!-- Icon set by JS -->
+                </button>
+            </div>
 
             <div class="header-center">
                 <h1>

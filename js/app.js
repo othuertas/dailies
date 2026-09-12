@@ -14,6 +14,9 @@
     const counterEl = document.getElementById('counter');
     const themeToggle = document.getElementById('theme-toggle');
     const wordmark = document.getElementById('wordmark');
+    const langSwitcher = document.getElementById('lang-switcher');
+    const langToggle = document.getElementById('lang-toggle');
+    const langMenu = document.getElementById('lang-menu');
 
     /* ----------------------------------------------------------
        State
@@ -24,12 +27,15 @@
     let gameOrder = [];   // custom sort: array of game IDs
     let activeFilter = 'all';
     let easterEggShown = false;
+    let currentLang = 'en';
+    const SUPPORTED_LANGS = ['en', 'ca', 'es'];
 
     const KEYS = {
         PLAYED: 'dailies_played',
         FAVORITES: 'dailies_favorites',
         ORDER: 'dailies_order',
         THEME: 'dailies_theme',
+        LANG: 'dailies_lang',
     };
 
     /* ==========================================================
@@ -90,6 +96,70 @@
     }
 
     /* ==========================================================
+       INTERNATIONALIZATION (i18n)
+       Languages: English (en), Catalan (ca), Spanish (es)
+       ========================================================== */
+    const I18N = {
+        en: {
+            easterEggTitle: '🌱 All Done!',
+            easterEggBody: "You've completed every daily today. Go touch some grass.",
+            emptyFavorites: 'No favorites yet. Star some games!',
+            emptyCategory: 'No games in this category.',
+            toggleTheme: 'Toggle dark mode',
+            toggleFavorite: 'Toggle favorite',
+            markCompleted: 'Mark as completed',
+            langAriaLabel: 'Language: English. Change language',
+        },
+        ca: {
+            easterEggTitle: '🌱 Feina feta!',
+            easterEggBody: "Has completat tots els jocs d'avui. Ja pots anar a tocar gespa.",
+            emptyFavorites: 'Encara no hi ha preferits. Afegeix-ne alguns!',
+            emptyCategory: 'No hi ha jocs en aquesta categoria.',
+            toggleTheme: 'Canvia al mode fosc',
+            toggleFavorite: 'Afegeix o treu dels preferits',
+            markCompleted: 'Marca com a completat',
+            langAriaLabel: 'Idioma: Català. Canvia de llengua',
+        },
+        es: {
+            easterEggTitle: '🌱 ¡Todo listo!',
+            easterEggBody: 'Has completado todos los diarios de hoy. Ve a tocar un poco de césped.',
+            emptyFavorites: 'Aún no hay favoritos. ¡Marca algunos juegos!',
+            emptyCategory: 'No hay juegos en esta categoría.',
+            toggleTheme: 'Cambiar a modo oscuro',
+            toggleFavorite: 'Marcar o desmarcar favorito',
+            markCompleted: 'Marcar como completado',
+            langAriaLabel: 'Idioma: Español. Cambiar de idioma',
+        }
+    };
+
+    const TAG_LABELS = {
+        all: { en: 'All', ca: 'Tots', es: 'Todos' },
+        favorites: { en: 'Favorites', ca: 'Preferits', es: 'Favoritos' },
+        word: { en: 'Word', ca: 'Paraules', es: 'Palabras' },
+        logic: { en: 'Logic', ca: 'Lògica', es: 'Lógica' },
+        visual: { en: 'Visual', ca: 'Visual', es: 'Visual' },
+        music: { en: 'Music', ca: 'Música', es: 'Música' },
+        audio: { en: 'Audio', ca: 'Àudio', es: 'Audio' },
+        trivia: { en: 'Trivia', ca: 'Trivia', es: 'Trivia' },
+        quiz: { en: 'Quiz', ca: 'Quiz', es: 'Quiz' },
+        català: { en: 'Catalan', ca: 'Català', es: 'Catalán' },
+        catala: { en: 'Catalan', ca: 'Català', es: 'Catalán' },
+        español: { en: 'Spanish', ca: 'Espanyol', es: 'Español' },
+        espanol: { en: 'Spanish', ca: 'Espanyol', es: 'Español' },
+        english: { en: 'English', ca: 'Anglès', es: 'Inglés' },
+    };
+
+    function t(key) {
+        return I18N[currentLang]?.[key] || I18N.en[key] || '';
+    }
+
+    function getTagLabel(tag) {
+        if (!tag) return '';
+        const k = tag.toLowerCase().trim();
+        return TAG_LABELS[k]?.[currentLang] || TAG_LABELS[k]?.en || tag;
+    }
+
+    /* ==========================================================
        TAG UTILS
        Languages defined in references/notes_and_features.md:
        Català, Español, English
@@ -114,8 +184,8 @@
                 categories.push(t);
             }
         });
-        categories.sort((a, b) => a.localeCompare(b));
-        languages.sort((a, b) => a.localeCompare(b));
+        categories.sort((a, b) => getTagLabel(a).localeCompare(getTagLabel(b), currentLang));
+        languages.sort((a, b) => getTagLabel(a).localeCompare(getTagLabel(b), currentLang));
         return [...categories, ...languages];
     }
 
@@ -132,10 +202,20 @@
                 id: r.name.toLowerCase().replace(/\s+/g, '-'),
                 name: r.name,
                 url: r.url,
-                description: r.description,
+                description: {
+                    en: r.description_en || r.description || '',
+                    ca: r.description_ca || r.description_en || r.description || '',
+                    es: r.description_es || r.description_en || r.description || '',
+                },
                 tags: rawTags,
             };
         });
+    }
+
+    function getGameDescription(game) {
+        if (!game || !game.description) return '';
+        if (typeof game.description === 'string') return game.description;
+        return game.description[currentLang] || game.description.en || '';
     }
 
     /* ==========================================================
@@ -212,6 +292,107 @@
         themeToggle.innerHTML = theme === 'dark'
             ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>'
             : '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+        themeToggle.setAttribute('aria-label', t('toggleTheme'));
+    }
+
+    /* ==========================================================
+       LANGUAGE SWITCHER
+       ========================================================== */
+    function detectBrowserLanguage() {
+        const navLangs = navigator.languages || [navigator.language || ''];
+        for (const lang of navLangs) {
+            const l = lang.toLowerCase();
+            if (l.startsWith('ca')) return 'ca';
+            if (l.startsWith('es')) return 'es';
+            if (l.startsWith('en')) return 'en';
+        }
+        return 'en';
+    }
+
+    function initLanguage() {
+        const saved = localStorage.getItem(KEYS.LANG);
+        const initial = (saved && SUPPORTED_LANGS.includes(saved))
+            ? saved
+            : detectBrowserLanguage();
+        setLanguage(initial, false);
+    }
+
+    function setLanguage(lang, reRender = true) {
+        if (!SUPPORTED_LANGS.includes(lang)) return;
+        currentLang = lang;
+        localStorage.setItem(KEYS.LANG, lang);
+        document.documentElement.setAttribute('lang', lang);
+
+        if (langMenu) {
+            langMenu.querySelectorAll('.lang-option').forEach(opt => {
+                const isSelected = opt.dataset.lang === currentLang;
+                opt.classList.toggle('active', isSelected);
+                opt.setAttribute('aria-selected', isSelected ? 'true' : 'false');
+            });
+        }
+
+        if (langToggle) {
+            langToggle.setAttribute('aria-label', t('langAriaLabel'));
+        }
+
+        if (themeToggle) {
+            themeToggle.setAttribute('aria-label', t('toggleTheme'));
+        }
+
+        if (reRender) {
+            renderTabs();
+            renderGames();
+            const eggMsg = document.querySelector('.easter-egg-message');
+            if (eggMsg) {
+                eggMsg.innerHTML = `<h2>${t('easterEggTitle')}</h2><p>${t('easterEggBody')}</p>`;
+            }
+        }
+    }
+
+    function toggleLangMenu(force) {
+        if (!langSwitcher) return;
+        const shouldOpen = force !== undefined ? force : !langSwitcher.classList.contains('is-open');
+        langSwitcher.classList.toggle('is-open', shouldOpen);
+        if (langToggle) {
+            langToggle.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false');
+        }
+        if (shouldOpen) {
+            const activeOption = langMenu?.querySelector('.lang-option.active');
+            activeOption?.focus();
+        }
+    }
+
+    function setupLangSwitcher() {
+        if (!langToggle || !langSwitcher || !langMenu) return;
+
+        langToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleLangMenu();
+        });
+
+        langMenu.addEventListener('click', (e) => {
+            const opt = e.target.closest('.lang-option');
+            if (!opt) return;
+            const lang = opt.dataset.lang;
+            if (lang && lang !== currentLang) {
+                setLanguage(lang, true);
+            }
+            toggleLangMenu(false);
+            langToggle.focus();
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!langSwitcher.contains(e.target)) {
+                toggleLangMenu(false);
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && langSwitcher.classList.contains('is-open')) {
+                toggleLangMenu(false);
+                langToggle.focus();
+            }
+        });
     }
 
     /* ==========================================================
@@ -245,14 +426,15 @@
     function renderTabs() {
         const tagSet = new Set();
         games.forEach(g => g.tags.forEach(t => tagSet.add(t)));
-        const tabs = ['All', 'Favorites', ...sortTags(Array.from(tagSet))];
+        const tabs = ['all', 'favorites', ...sortTags(Array.from(tagSet))];
 
         tabBar.innerHTML = tabs.map(tab => {
-            const val = tab === 'All' ? 'all' : tab === 'Favorites' ? 'favorites' : tab;
+            const val = tab;
             const active = (val === activeFilter) ? ' active' : '';
             const isTag = (val !== 'all' && val !== 'favorites');
             const dot = isTag ? '<span class="tab-dot"></span>' : '';
-            return `<button class="tab-btn${active}" data-tag="${val}">${dot}<span class="tab-label">${tab}</span></button>`;
+            const label = getTagLabel(tab);
+            return `<button class="tab-btn${active}" data-tag="${val}">${dot}<span class="tab-label">${label}</span></button>`;
         }).join('');
     }
 
@@ -271,8 +453,8 @@
 
         if (!filtered.length) {
             gameGrid.innerHTML = `<div class="empty-state">${activeFilter === 'favorites'
-                    ? 'No favorites yet. Star some games!'
-                    : 'No games in this category.'
+                    ? t('emptyFavorites')
+                    : t('emptyCategory')
                 }</div>`;
             updateCounter(0, 0, animateCounter);
             return;
@@ -295,9 +477,9 @@
             /* Checkbox icon: empty square vs checked square */
             const checkIcon = getCheckIcon(isPlayed);
 
-            /* Tags: editorial style with colored category dot */
+            /* Tags: editorial style with colored category dot and localized label */
             const tagsHtml = game.tags.map(t =>
-                `<span class="card-tag" data-tag="${t.toLowerCase()}"><span class="card-tag-dot"></span>${t}</span>`
+                `<span class="card-tag" data-tag="${t.toLowerCase()}"><span class="card-tag-dot"></span>${getTagLabel(t)}</span>`
             ).join('<span class="tag-sep">·</span>');
 
             card.innerHTML = `
@@ -305,7 +487,7 @@
                     <span class="card-title"><span class="card-title-text">${game.name}</span></span>
                     <div class="card-actions">
                         <button class="card-action favorite-btn${isFavorite ? ' is-favorite' : ''}"
-                                title="Toggle favorite" aria-label="Toggle favorite">
+                                title="${t('toggleFavorite')}" aria-label="${t('toggleFavorite')}">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                  fill="${starFill}" stroke="currentColor" stroke-width="2"
                                  stroke-linecap="round" stroke-linejoin="round">
@@ -313,12 +495,12 @@
                             </svg>
                         </button>
                         <button class="card-action complete-btn${isPlayed ? ' is-completed' : ''}"
-                                title="Mark as completed" aria-label="Mark as completed">
+                                title="${t('markCompleted')}" aria-label="${t('markCompleted')}">
                             ${checkIcon}
                         </button>
                     </div>
                 </div>
-                <p class="card-description">${game.description}</p>
+                <p class="card-description">${getGameDescription(game)}</p>
                 <div class="card-tags">${tagsHtml}</div>
             `;
 
@@ -434,7 +616,7 @@
 
         const msg = document.createElement('div');
         msg.className = 'easter-egg-message';
-        msg.innerHTML = '<h2>🌱 All Done!</h2><p>You\'ve completed every daily today. Go touch some grass.</p>';
+        msg.innerHTML = `<h2>${t('easterEggTitle')}</h2><p>${t('easterEggBody')}</p>`;
         document.body.appendChild(msg);
 
         const dismiss = () => {
@@ -740,12 +922,14 @@
        ========================================================== */
     async function init() {
         initTheme();
+        initLanguage();
         await loadGames();
         loadState();
         renderTabs();
         renderGames();
 
         themeToggle.addEventListener('click', toggleTheme);
+        setupLangSwitcher();
         tabBar.addEventListener('click', handleTabClick);
         gameGrid.addEventListener('click', handleCardClick);
         setupDnD();
